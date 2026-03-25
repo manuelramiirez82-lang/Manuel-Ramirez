@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manuel Ramirez Ferrer – CV Interactivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060810;
+  --surface: #0d1117;
+  --surface2: #131926;
+  --border: rgba(255,255,255,0.07);
+  --text: #e8eaf2;
+  --muted: #8892a4;
+  --dim: #4a5568;
+
+  --blue: #3b82f6;
+  --blue-glow: rgba(59,130,246,0.18);
+  --teal: #2dd4bf;
+  --teal-glow: rgba(45,212,191,0.15);
+  --violet: #a78bfa;
+  --violet-glow: rgba(167,139,250,0.15);
+  --amber: #fbbf24;
+  --amber-glow: rgba(251,191,36,0.12);
+  --rose: #f43f5e;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--blue);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(59,130,246,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, width 0.25s, height 0.25s, border-color 0.25s;
+}
+body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 20px; height: 20px; }
+body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 56px; height: 56px; border-color: var(--teal); }
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── AMBIENT BLOBS ── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.blob-1 { width: 600px; height: 600px; background: var(--blue-glow); top: -200px; right: -100px; animation-delay: 0s; }
+.blob-2 { width: 500px; height: 500px; background: var(--violet-glow); bottom: 20%; left: -150px; animation-delay: -6s; }
+.blob-3 { width: 400px; height: 400px; background: var(--teal-glow); top: 50%; right: 10%; animation-delay: -12s; }
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, 60px) scale(1.1); }
+}
+
+/* ── WRAPPER ── */
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0 60px;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 600;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: slideUp 0.8s ease 0.2s forwards;
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 9vw, 110px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.35s forwards;
+}
+
+.hero-name span {
+  display: block;
+  background: linear-gradient(135deg, #fff 30%, var(--blue) 70%, var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-name span:last-child {
+  background: linear-gradient(135deg, #e8eaf2 20%, var(--violet) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-tagline {
+  font-size: 16px;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 560px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.5s forwards;
+}
+
+.hero-tagline strong { color: var(--text); font-weight: 500; }
+
+.hero-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.65s forwards;
+}
+
+.contact-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 10px 18px;
+  border-radius: 40px;
+  font-size: 13px;
+  color: var(--muted);
+  transition: all 0.3s;
+}
+.contact-pill:hover {
+  border-color: var(--blue);
+  color: var(--text);
+  background: var(--blue-glow);
+  transform: translateY(-2px);
+}
+.contact-pill svg { color: var(--blue); flex-shrink: 0; }
+
+/* ── METRICS ── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  opacity: 0;
+  animation: slideUp 0.9s ease 0.8s forwards;
+}
+
+.metric {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.metric::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 16px;
+}
+.metric:nth-child(1)::before { background: var(--blue-glow); }
+.metric:nth-child(2)::before { background: var(--teal-glow); }
+.metric:nth-child(3)::before { background: var(--violet-glow); }
+.metric:nth-child(4)::before { background: var(--amber-glow); }
+.metric:hover { transform: translateY(-4px); }
+.metric:hover::before { opacity: 1; }
+.metric:nth-child(1):hover { border-color: var(--blue); }
+.metric:nth-child(2):hover { border-color: var(--teal); }
+.metric:nth-child(3):hover { border-color: var(--violet); }
+.metric:nth-child(4):hover { border-color: var(--amber); }
+
+.metric-num {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.metric:nth-child(1) .metric-num { color: var(--blue); }
+.metric:nth-child(2) .metric-num { color: var(--teal); }
+.metric:nth-child(3) .metric-num { color: var(--violet); }
+.metric:nth-child(4) .metric-num { color: var(--amber); }
+
+.metric-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dim);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: slideUp 1s ease 1.2s forwards;
+}
+.scroll-line {
+  width: 40px; height: 1px;
+  background: linear-gradient(to right, var(--dim), transparent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ── SECTIONS ── */
+.section {
+  margin-bottom: 100px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.section-label-text {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.section-label-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border), transparent);
+}
+
+.s-exp  .section-label-text { color: var(--blue); }
+.s-skills .section-label-text { color: var(--teal); }
+.s-edu .section-label-text  { color: var(--violet); }
+.s-cert .section-label-text { color: var(--amber); }
+.s-lang .section-label-text { color: var(--rose); }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── JOB CARDS ── */
+.job-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 40px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.job-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: 3px 0 0 3px;
+  transition: opacity 0.3s;
+}
+.job-card.current::before { background: linear-gradient(to bottom, var(--teal), var(--blue)); }
+.job-card.past::before    { background: linear-gradient(to bottom, var(--blue), var(--violet)); }
+.job-card.older::before   { background: linear-gradient(to bottom, var(--violet), var(--dim)); }
+
+.job-card:hover {
+  border-color: rgba(255,255,255,0.14);
+  transform: translateX(4px);
+}
+
+.job-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.job-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.job-badge {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-current { background: rgba(45,212,191,0.12); color: var(--teal); border: 1px solid rgba(45,212,191,0.25); }
+.badge-past    { background: rgba(59,130,246,0.1);  color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
+.badge-older   { background: rgba(167,139,250,0.1); color: var(--violet); border: 1px solid rgba(167,139,250,0.2); }
+
+.job-company {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.job-company::before {
+  content: '';
+  display: inline-block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+/* Collapsible bullets */
+.job-toggle {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin-bottom: 16px;
+  transition: color 0.2s;
+}
+.job-toggle:hover { color: var(--text); cursor: pointer; }
+.job-toggle svg {
+  transition: transform 0.3s;
+}
+.job-toggle.open svg { transform: rotate(180deg); }
+
+.job-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+.job-bullets.open {
+  max-height: 800px;
+  opacity: 1;
+}
+
+.job-bullets li {
+  display: flex;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.job-bullets li::before {
+  content: '›';
+  color: var(--blue);
+  flex-shrink: 0;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* ── SKILLS ── */
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: all 0.25s;
+  cursor: default;
+}
+.skill-tag:hover {
+  transform: translateY(-3px) scale(1.04);
+  color: var(--text);
+}
+.skill-tag.s-blue:hover   { background: var(--blue-glow);   border-color: var(--blue);   color: var(--blue); }
+.skill-tag.s-teal:hover   { background: var(--teal-glow);   border-color: var(--teal);   color: var(--teal); }
+.skill-tag.s-violet:hover { background: var(--violet-glow); border-color: var(--violet); color: var(--violet); }
+.skill-tag.s-amber:hover  { background: var(--amber-glow);  border-color: var(--amber);  color: var(--amber); }
+
+/* ── EDU CARDS ── */
+.edu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.edu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.edu-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+.edu-card:nth-child(1)::after { background: var(--violet); }
+.edu-card:nth-child(2)::after { background: var(--blue); }
+.edu-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.12); }
+.edu-card:hover::after { opacity: 0.7; }
+
+.edu-year-badge {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--violet);
+  background: var(--violet-glow);
+  border: 1px solid rgba(167,139,250,0.25);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.edu-card:nth-child(2) .edu-year-badge { color: var(--blue); background: var(--blue-glow); border-color: rgba(59,130,246,0.25); }
+
+.edu-degree-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.edu-school-name {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ── CERTS ── */
+.cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cert-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: all 0.25s;
+}
+.cert-item:hover {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+  transform: translateX(6px);
+}
+.cert-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--amber-glow);
+  border: 1px solid rgba(251,191,36,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--amber);
+  font-size: 16px;
+}
+.cert-name {
+  font-size: 13.5px;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.3;
+}
+.cert-org {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── LANGUAGES ── */
+.lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.lang-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: transform 0.3s;
+}
+.lang-card:hover { transform: translateY(-4px); }
+.lang-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.lang-level-text {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.lang-bar {
+  height: 4px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.lang-fill {
+  height: 100%;
+  border-radius: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s ease 0.3s;
+}
+.lang-card:nth-child(1) .lang-fill { background: linear-gradient(to right, var(--rose), var(--violet)); width: 100%; }
+.lang-card:nth-child(2) .lang-fill { background: linear-gradient(to right, var(--blue), var(--teal)); width: 65%; }
+.lang-fill.animated { transform: scaleX(1); }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 60px 0 20px;
+  color: var(--dim);
+  font-size: 12px;
+}
+
+/* ── PRINT BTN ── */
+.print-btn {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  background: linear-gradient(135deg, var(--blue), var(--teal));
+  color: #fff;
+  border: none;
+  padding: 14px 26px;
+  border-radius: 40px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(59,130,246,0.4);
+  display: flex; align-items: center; gap: 8px;
+  z-index: 200;
+  transition: all 0.25s;
+}
+.print-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(59,130,246,0.55);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .metrics     { grid-template-columns: repeat(2,1fr); }
+  .edu-grid    { grid-template-columns: 1fr; }
+  .lang-grid   { grid-template-columns: 1fr; }
+  .job-card    { padding: 24px; }
+  .hero        { min-height: auto; padding: 80px 0 40px; }
+}
+
+@media print {
+  body { background: white; color: #111; cursor: default; }
+  .blob, .cursor, .cursor-ring, .print-btn, .scroll-hint { display: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .job-bullets { max-height: none !important; opacity: 1 !important; }
+  .job-toggle  { display: none; }
+  :root {
+    --bg: white; --surface: #f8f9fa; --surface2: #f0f2f5;
+    --text: #111; --muted: #444; --border: #ddd; --dim: #888;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="wrapper">
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="hero-eyebrow">Curriculum Vitae · 2025</div>
+    <h1 class="hero-name">
+      <span>Manuel</span>
+      <span>Ramirez</span>
+    </h1>
+    <p class="hero-tagline">
+      <strong>Business Development · Key Account Manager · Asesor Comercial Senior</strong><br>
+      Más de 7 años construyendo relaciones comerciales B2B de alto valor en sectores industrial y tecnológico. Especialista en ciclo completo de venta, con resultados anuales superiores a <strong>$580MM CLP</strong>.
+    </p>
+    <div class="hero-contact">
+      <div class="contact-pill">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        (56) 9 57871017
+      </div>
+      <div class="contact-pill">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        manuelramiirez82@gmail.com
+      </div>
+      <div class="contact-pill">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        San Miguel, Santiago, Chile
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-num" data-target="580">0</div>
+        <div class="metric-label">MM CLP / año</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">7+</div>
+        <div class="metric-label">Años en B2B</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">360°</div>
+        <div class="metric-label">Ciclo de venta</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">B1/B2</div>
+        <div class="metric-label">Inglés</div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      scroll para ver más
+    </div>
+  </section>
+
+  <!-- ══ EXPERIENCIA ══ -->
+  <section class="section s-exp">
+    <div class="section-label reveal">
+      <span class="section-label-text">Experiencia Laboral</span>
+      <div class="section-label-line"></div>
+    </div>
+
+    <!-- ISC -->
+    <div class="job-card current reveal">
+      <div class="job-card-top">
+        <div class="job-title">Business Development Representative</div>
+        <span class="job-badge badge-current">● Actualidad</span>
+      </div>
+      <div class="job-company">ISC – Santiago de Chile &nbsp;·&nbsp; Nov 2025 – Actualidad</div>
+      <button class="job-toggle" onclick="toggleJob(this)">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        Ver responsabilidades
+      </button>
+      <ul class="job-bullets">
+        <li>Prospección desde cero mediante llamadas en frío, correo electrónico y gestión de cartera, generando oportunidades en ciberseguridad, respaldo de información, servicios TI gestionados, despacho de correos masivos y desarrollo de software a medida.</li>
+        <li>Gestión del ciclo completo de venta: desde el primer contacto hasta la facturación y postventa, asegurando satisfacción del cliente y fidelización a largo plazo.</li>
+        <li>Diseño de la estrategia comercial anual y elaboración del presupuesto comercial, alineando objetivos de crecimiento con la capacidad operativa de la empresa.</li>
+        <li>Elaboración de cotizaciones técnicas personalizadas y propuestas comerciales a medida, adaptadas a las necesidades específicas de cada cliente.</li>
+        <li>Desarrollo y ejecución de presentaciones comerciales y webinars para clientes, generando valor agregado y acortando los ciclos de decisión.</li>
+        <li>Revisión y seguimiento de KPIs comerciales, ajustando la estrategia de prospección y cierre en función de los resultados obtenidos.</li>
+      </ul>
+    </div>
+
+    <!-- FOCHITEK -->
+    <div class="job-card past reveal">
+      <div class="job-card-top">
+        <div class="job-title">Asesor Comercial B2B – Automatización Industrial</div>
+        <span class="job-badge badge-past">Nov 2023 – Nov 2025</span>
+      </div>
+      <div class="job-company">Fochitek Maquinarias de Envasado – Santiago de Chile</div>
+      <button class="job-toggle" onclick="toggleJob(this)">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        Ver responsabilidades
+      </button>
+      <ul class="job-bullets">
+        <li>Desarrollo de cartera B2B en sectores industrial, alimenticio y farmacéutico, alcanzando ventas anuales superiores a $580MM CLP.</li>
+        <li>Diagnóstico de necesidades técnicas y propuesta de soluciones de automatización y maquinaria a medida, elevando la tasa de conversión.</li>
+        <li>Negociación de contratos, cotizaciones y condiciones comerciales, logrando cierres sostenidos con clientes de alto valor.</li>
+        <li>Gestión integral del CRM: seguimiento de oportunidades, pipeline activo y reportes de proyección de ventas.</li>
+        <li>Coordinación con equipos de ingeniería para implementación de soluciones y seguimiento postventa.</li>
+        <li>Análisis de KPIs comerciales y elaboración de informes de rentabilidad de proyectos para la dirección.</li>
+      </ul>
+    </div>
+
+    <!-- PATAGONIA -->
+    <div class="job-card past reveal">
+      <div class="job-card-top">
+        <div class="job-title">Analista Comercial</div>
+        <span class="job-badge badge-past">Feb 2023 – Nov 2023</span>
+      </div>
+      <div class="job-company">Constructora Patagonia del Valle – Santiago de Chile</div>
+      <button class="job-toggle" onclick="toggleJob(this)">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        Ver responsabilidades
+      </button>
+      <ul class="job-bullets">
+        <li>Elaboración de informes de ventas, proyecciones y análisis de rentabilidad para la gerencia comercial.</li>
+        <li>Creación y seguimiento de propuestas técnicas y económicas; monitoreo de KPIs de desempeño.</li>
+        <li>Apoyo en la implementación del sistema de gestión de calidad ISO 9001:2015.</li>
+        <li>Planificación de metas y presupuesto comercial en coordinación con la dirección.</li>
+      </ul>
+    </div>
+
+    <!-- ROYAL RENT -->
+    <div class="job-card older reveal">
+      <div class="job-card-top">
+        <div class="job-title">Encargado de Administración y Postventa</div>
+        <span class="job-badge badge-older">Feb 2018 – Oct 2022</span>
+      </div>
+      <div class="job-company">Royal Rent SpA – Santiago de Chile</div>
+      <button class="job-toggle" onclick="toggleJob(this)">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        Ver responsabilidades
+      </button>
+      <ul class="job-bullets">
+        <li>Gestión de cartera de propiedades: control de ingresos, egresos, gastos comunes y mantenciones.</li>
+        <li>Elaboración de informes financieros mensuales, contratos de arriendo y mandatos de administración.</li>
+        <li>Atención y resolución de reclamos e incidencias, asegurando la fidelización de clientes y propietarios.</li>
+        <li>Coordinación de pagos a proveedores, propietarios y servicios dentro de los plazos establecidos.</li>
+      </ul>
+    </div>
+
+    <!-- GE -->
+    <div class="job-card older reveal">
+      <div class="job-card-top">
+        <div class="job-title">Analista de Impuestos</div>
+        <span class="job-badge badge-older">Oct 2014 – Nov 2017</span>
+      </div>
+      <div class="job-company">General Electric / Turbomeca – Maracaibo, Venezuela</div>
+      <button class="job-toggle" onclick="toggleJob(this)">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        Ver responsabilidades
+      </button>
+      <ul class="job-bullets">
+        <li>Preparación de declaraciones fiscales (IVA, ISLR, impuestos municipales) para empresa multinacional del sector energético.</li>
+        <li>Revisión y conciliación contable de impuestos; gestión de libros fiscales y atención de auditorías del SENIAT.</li>
+        <li>Uso de sistemas ERP: SAP, Oracle y JD Edwards.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ══ HABILIDADES ══ -->
+  <section class="section s-skills">
+    <div class="section-label reveal">
+      <span class="section-label-text">Habilidades</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="skills-grid reveal">
+      <span class="skill-tag s-blue">Ventas B2B</span>
+      <span class="skill-tag s-blue">Negociación Comercial</span>
+      <span class="skill-tag s-teal">Business Development</span>
+      <span class="skill-tag s-teal">Key Account Management</span>
+      <span class="skill-tag s-blue">Prospección Multicanal</span>
+      <span class="skill-tag s-blue">Cold Calling</span>
+      <span class="skill-tag s-teal">LinkedIn Sales Navigator</span>
+      <span class="skill-tag s-teal">Apollo.io</span>
+      <span class="skill-tag s-violet">Ventas Consultivas</span>
+      <span class="skill-tag s-violet">CRM</span>
+      <span class="skill-tag s-violet">KPIs Comerciales</span>
+      <span class="skill-tag s-amber">Automatización Industrial</span>
+      <span class="skill-tag s-amber">Ciberseguridad TI</span>
+      <span class="skill-tag s-amber">Servicios TI Gestionados</span>
+      <span class="skill-tag s-blue">Marketing Digital</span>
+      <span class="skill-tag s-blue">E-commerce</span>
+      <span class="skill-tag s-teal">Presupuesto Comercial</span>
+      <span class="skill-tag s-violet">Excel Avanzado</span>
+      <span class="skill-tag s-violet">ISO 9001:2015</span>
+      <span class="skill-tag s-amber">SAP / Oracle / JD Edwards</span>
+      <span class="skill-tag s-amber">AutoCAD</span>
+    </div>
+  </section>
+
+  <!-- ══ EDUCACIÓN ══ -->
+  <section class="section s-edu">
+    <div class="section-label reveal">
+      <span class="section-label-text">Educación</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="edu-grid reveal">
+      <div class="edu-card">
+        <div class="edu-year-badge">2014 – 2017</div>
+        <div class="edu-degree-title">Licenciado en Contaduría Pública</div>
+        <div class="edu-school-name">Universidad Dr. Rafael Belloso Chacín (URBE) – Venezuela</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year-badge">2013 – 2015</div>
+        <div class="edu-degree-title">Técnico Superior en Administración de Empresas</div>
+        <div class="edu-school-name">INCES – Venezuela</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CERTIFICACIONES ══ -->
+  <section class="section s-cert">
+    <div class="section-label reveal">
+      <span class="section-label-text">Certificaciones</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="cert-list reveal">
+      <div class="cert-item">
+        <div class="cert-icon">📊</div>
+        <div><div class="cert-name">Análisis de Datos</div><div class="cert-org">Google / Coursera · 2023</div></div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">📈</div>
+        <div><div class="cert-name">Business Analysis & Process Management</div><div class="cert-org">Coursera · 2023</div></div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🔬</div>
+        <div><div class="cert-name">Foundations of Data Science</div><div class="cert-org">United Latino Students Association / Coursera</div></div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🛒</div>
+        <div><div class="cert-name">Comercio Electrónico</div><div class="cert-org">Google · Credencial: Z79 DTM LXM</div></div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">📣</div>
+        <div><div class="cert-name">Fundamentos del Marketing Digital</div><div class="cert-org">Google · Credencial: 243 4QP KD2</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ IDIOMAS ══ -->
+  <section class="section s-lang">
+    <div class="section-label reveal">
+      <span class="section-label-text">Idiomas</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="lang-grid reveal">
+      <div class="lang-card">
+        <div class="lang-name">Español</div>
+        <div class="lang-level-text">Nativo</div>
+        <div class="lang-bar"><div class="lang-fill"></div></div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-name">Inglés</div>
+        <div class="lang-level-text">Nivel B1 / B2</div>
+        <div class="lang-bar"><div class="lang-fill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">Diseñado para destacar · Manuel Ramirez Ferrer · 2025</div>
+
+</div><!-- /wrapper -->
+
+<button class="print-btn" onclick="window.print()">
+  <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+  Guardar PDF
+</button>
+
+<script>
+  // ── CURSOR ──
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // animate language bars
+        e.target.querySelectorAll('.lang-fill').forEach(f => f.classList.add('animated'));
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── COUNTER ANIMATION ──
+  const counterEl = document.querySelector('[data-target]');
+  let counted = false;
+  const counterObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      let n = 0;
+      const target = parseInt(counterEl.dataset.target);
+      const step = target / 60;
+      const timer = setInterval(() => {
+        n = Math.min(n + step, target);
+        counterEl.textContent = '$' + Math.floor(n) + 'MM+';
+        if (n >= target) clearInterval(timer);
+      }, 16);
+    }
+  }, { threshold: 0.5 });
+  counterObs.observe(counterEl);
+
+  // ── JOB TOGGLE ──
+  function toggleJob(btn) {
+    const bullets = btn.nextElementSibling;
+    const isOpen  = bullets.classList.contains('open');
+    bullets.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.innerHTML = isOpen
+      ? `<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg> Ver responsabilidades`
+      : `<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg> Ocultar`;
+  }
+
+  // Auto-open first job
+  document.querySelector('.job-toggle').click();
+</script>
+</body>
+</html>
